@@ -2,16 +2,17 @@ import getpass
 import os
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
+from langchain_google_genai import ChatGoogleGenerativeAI
 from dotenv import load_dotenv, find_dotenv
+import getpass
+import os
 
 load_dotenv(find_dotenv(), override=True)
 
 # Load the API info from the environment
 if "GOOGLE_API_KEY" not in os.environ:
-    os.environ["GOOGLE_API_KEY"] = getpass.getpass("Enter your Google API key: ")
-
-from langchain_google_genai import ChatGoogleGenerativeAI
-
+    os.environ["GOOGLE_API_KEY"] = getpass.getpass(
+        "Enter your Google API key: ")
 
 
 def recommend(environment_description, text_mood, text_music_types, text_more_details, song_list):
@@ -27,8 +28,10 @@ def recommend(environment_description, text_mood, text_music_types, text_more_de
         verbose=False
     )
 
-    response = chain.invoke({"environment_description": environment_description, "text_mood": text_mood, "text_music_types": text_music_types, "text_more_details": text_more_details, "song_list": song_list})
+    response = chain.invoke({"environment_description": environment_description, "text_mood": text_mood,
+                            "text_music_types": text_music_types, "text_more_details": text_more_details, "song_list": song_list})
     return response
+
 
 def final_recommend(text_mood, text_music_types, text_more_details):
 

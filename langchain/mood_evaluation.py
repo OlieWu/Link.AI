@@ -1,10 +1,13 @@
 import getpass
 import os
-import requests
 import json
+import requests
 from IPython.display import Image
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
+from langchain_core.messages import HumanMessage
+from langchain_google_genai import ChatGoogleGenerativeAI
+
 from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv(), override=True)
@@ -23,10 +26,8 @@ JSON_FORMAT = '''{
 
 # Load the API info from the environment
 if "GOOGLE_API_KEY" not in os.environ:
-    os.environ["GOOGLE_API_KEY"] = getpass.getpass("Enter your Google API key: ")
-
-from langchain_core.messages import HumanMessage
-from langchain_google_genai import ChatGoogleGenerativeAI
+    os.environ["GOOGLE_API_KEY"] = getpass.getpass(
+        "Enter your Google API key: ")
 
 
 def get_image_path(image_name):
@@ -34,9 +35,10 @@ def get_image_path(image_name):
     image_path = os.path.join(base_dir, "pic_database/" + image_name)
     return image_path
 
+
 def analyze_image(image_url):
     llm = ChatGoogleGenerativeAI(model="gemini-pro-vision")
-    
+
     # content = requests.get(image_url).content
     # Image(content)
 
@@ -55,6 +57,7 @@ def analyze_image(image_url):
     results = llm.invoke([message])
     return results
 
+
 def evalutaion(JSON_format, api_info, environment_description, text_mood, text_music_types, text_more_details):
     llm = ChatGoogleGenerativeAI(model='gemini-pro')
     prompt = PromptTemplate.from_template(
@@ -67,20 +70,24 @@ def evalutaion(JSON_format, api_info, environment_description, text_mood, text_m
         verbose=False
     )
 
-    response = chain.invoke({"JSON_format": JSON_format, "api_info": api_info, "environment_description": environment_description, "text_mood": text_mood, "text_music_types": text_music_types, "text_more_details": text_more_details})
+    response = chain.invoke({"JSON_format": JSON_format, "api_info": api_info, "environment_description": environment_description,
+                            "text_mood": text_mood, "text_music_types": text_music_types, "text_more_details": text_more_details})
     return response
+
 
 def mood_eval(text_mood, text_music_types, text_more_details, image_name="sea.jpg"):
 
-    image_path = get_image_path(image_name) # get the image path locally 
+    image_path = get_image_path(image_name)  # get the image path locally
 
-    environment_description = analyze_image(image_path) # get the description from Gemini API
+    # get the description from Gemini API
+    environment_description = analyze_image(image_path)
 
     with open(API_INFO_PATH, 'r') as file:
         api_info = file.read()
 
     # Generate the evaluation result JSON based on the input
-    response = evalutaion(JSON_FORMAT, api_info, environment_description, text_mood, text_music_types, text_more_details)     
+    response = evalutaion(JSON_FORMAT, api_info, environment_description,
+                          text_mood, text_music_types, text_more_details)
 
     evaluation_json = response['text']
     return evaluation_json
@@ -89,7 +96,8 @@ def mood_eval(text_mood, text_music_types, text_more_details, image_name="sea.jp
 # response = mood_eval("happy", "pop, rock", "My favortiate singer is Taylor Swift.", "sea.jpg")
 # print(response)
 
-# Example response 
+
+# Example response
 '''
 This is a photo of a small tropical island with white sand beaches and palm trees. 
 The water is crystal clear and there is a small boat anchored in the foreground. 
@@ -100,4 +108,3 @@ The sky is blue and there are some white clouds.
 # temp_text_mood = "happy"
 # temp_text_music_types = "pop, rock"
 # temp_text_more_details = "My favortiate singer is Taylor Swift."
-
