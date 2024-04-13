@@ -14,8 +14,7 @@ function App() {
         </header>
         <main className="main-container">
           <Routes>
-            <Route path="/" key="spotify" element={<Spotify />} />
-            <Route path="/search" key="search" element={<Search />} />
+            <Route path="/" key="search" element={<Search />} />
             <Route path="/result" key="result" element={<Result />} />
           </Routes>
         </main>

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Step1 from '../step1/step1';
 import Step2 from '../step2/step2';
 import Step3 from '../step3/step3';
 
 const Search = () => {
     const [step, setStep] = useState(1);
+    const navigate = useNavigate();
     const handleNext = () => {
         setStep(step + 1);
     };
@@ -24,6 +25,11 @@ const Search = () => {
                 return <Step1 />;
         }
     };
+    const performSearch = () => {
+        // Perform search here
+        // Redirect to result page
+        navigate("/result");
+    };
     return (
         <div>
             <h1>Customize your playlist</h1>
@@ -31,6 +37,7 @@ const Search = () => {
             {renderStep()}
             <button onClick={handlePrev} disabled={step === 1}>Previous</button>
             <button onClick={handleNext} disabled={step === 3}>Next</button>
+            <button onClick={performSearch} disabled={step !== 3}>Search</button>
         </div>
     );
 }
