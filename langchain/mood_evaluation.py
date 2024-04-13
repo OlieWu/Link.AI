@@ -1,6 +1,5 @@
 import getpass
 import os
-import requests
 import json
 from IPython.display import Image
 from langchain.chains import LLMChain
@@ -72,18 +71,37 @@ def evalutaion(JSON_format, api_info, environment_description, text_mood, text_m
 
 def mood_eval(text_mood, text_music_types, text_more_details, image_name="sea.jpg"):
 
-    image_path = get_image_path(image_name) # get the image path locally 
+    try:
 
-    environment_description = analyze_image(image_path) # get the description from Gemini API
+        image_path = get_image_path(image_name) # get the image path locally 
 
-    with open(API_INFO_PATH, 'r') as file:
-        api_info = file.read()
+        environment_description = analyze_image(image_path) # get the description from Gemini API
 
-    # Generate the evaluation result JSON based on the input
-    response = evalutaion(JSON_FORMAT, api_info, environment_description, text_mood, text_music_types, text_more_details)     
+        with open(API_INFO_PATH, 'r') as file:
+            api_info = file.read()
 
-    evaluation_json = response['text']
-    return evaluation_json
+        # Generate the evaluation result JSON based on the input
+        response = evalutaion(JSON_FORMAT, api_info, environment_description, text_mood, text_music_types, text_more_details)     
+
+        evaluation_result = response['text']
+
+        evaluation_json = json.loads(evaluation_result)
+
+        # Extracting the seed_genres and converting from a string to a list
+        seed_genres = evaluation_json['Seed_genres'].split(', ')
+
+        # Removing the seed_genres from json_data to isolate target_features
+        del evaluation_json['Seed_genres']
+
+        # The rest of the json_data dictionary is your target_features
+        target_features = evaluation_json
+
+        return target_features, seed_genres, environment_description
+    
+    except Exception as e:
+        print(e)
+        return None, None, None
+
 
 # # Example usage
 # response = mood_eval("happy", "pop, rock", "My favortiate singer is Taylor Swift.", "sea.jpg")
