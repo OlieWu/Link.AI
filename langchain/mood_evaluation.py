@@ -1,6 +1,7 @@
 import getpass
 import os
 import requests
+import json
 from IPython.display import Image
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
@@ -9,7 +10,18 @@ from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv(), override=True)
 API_INFO_PATH = "/Users/edwin/Link.AI/langchain/recommendation_api_info.txt"
 
+JSON_FORMAT = '''{
+    Target_energy :
+    Target_loudness :
+    Target_dancebility :
+    Target_liveness :
+    Target_valence :
+    Seed_genres :
+    Target_instrumentalness :
 
+}'''
+
+# Load the API info from the environment
 if "GOOGLE_API_KEY" not in os.environ:
     os.environ["GOOGLE_API_KEY"] = getpass.getpass("Enter your Google API key: ")
 
@@ -41,7 +53,6 @@ def analyze_image(image_url):
         ]
     )
     results = llm.invoke([message])
-
     return results
 
 def evalutaion(JSON_format, api_info, environment_description, text_mood, text_music_types, text_more_details):
@@ -59,21 +70,25 @@ def evalutaion(JSON_format, api_info, environment_description, text_mood, text_m
     response = chain.invoke({"JSON_format": JSON_format, "api_info": api_info, "environment_description": environment_description, "text_mood": text_mood, "text_music_types": text_music_types, "text_more_details": text_more_details})
     return response
 
-JSON_format = '''{
-    Target_energy :
-    Target_loudness :
-    Target_dancebility :
-    Target_liveness :
-    Target_valence :
-    Seed_genres :
-    Target_instrumentalness :
+def mood_eval(text_mood, text_music_types, text_more_details, image_name="sea.jpg"):
 
-}'''
+    image_path = get_image_path(image_name) # get the image path locally 
 
-# image_name = "sea.jpg"
-# image_path = get_image_path(image_name)
-# results = analyze_image(llm, image_path)
-# print(results.content)
+    environment_description = analyze_image(image_path) # get the description from Gemini API
+
+    with open(API_INFO_PATH, 'r') as file:
+        api_info = file.read()
+
+    # Generate the evaluation result JSON based on the input
+    response = evalutaion(JSON_FORMAT, api_info, environment_description, text_mood, text_music_types, text_more_details)     
+
+    evaluation_json = response['text']
+    return evaluation_json
+
+# # Example usage
+# response = mood_eval("happy", "pop, rock", "My favortiate singer is Taylor Swift.", "sea.jpg")
+# print(response)
+
 # Example response 
 '''
 This is a photo of a small tropical island with white sand beaches and palm trees. 
@@ -81,20 +96,8 @@ The water is crystal clear and there is a small boat anchored in the foreground.
 In the background, a larger boat is sailing on the horizon. 
 The sky is blue and there are some white clouds.
 '''
+# image_name = "sea.jpg"
+# temp_text_mood = "happy"
+# temp_text_music_types = "pop, rock"
+# temp_text_more_details = "My favortiate singer is Taylor Swift."
 
-temp_results_content = '''
-This is a photo of a small tropical island with white sand beaches and palm trees. 
-The water is crystal clear and there is a small boat anchored in the foreground. 
-In the background, a larger boat is sailing on the horizon. 
-The sky is blue and there are some white clouds.
-'''
-temp_text_mood = "happy"
-temp_text_music_types = "pop, rock"
-temp_text_more_details = "My favortiate singer is Taylor Swift."
-
-with open(API_INFO_PATH, 'r') as file:
-    api_info = file.read()
-
-response = evalutaion(JSON_format, api_info, temp_results_content, temp_text_mood, temp_text_music_types, temp_text_more_details)     
-
-print(response)
