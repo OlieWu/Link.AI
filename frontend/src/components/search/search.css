@@ -1,0 +1,43 @@
+.iconbutton {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline: none;
+  /* You may want to define a focus style for accessibility */
+}
+
+.step {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button-container {
+  position: fixed;
+  /* Fixed position relative to the viewport */
+  bottom: 50px;
+  /* 20px above the bottom of the viewport */
+  left: 20px;
+  /* Align to the left edge of the viewport */
+  right: 20px;
+  /* Align to the right edge of the viewport */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.textbutton {
+  width: 134px;
+  height: 45px;
+  outline: none;
+  border: none;
+
+  background-color: #71D9B4;
+  border-radius: 30px;
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 29px;
+}

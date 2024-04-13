@@ -1,15 +1,16 @@
-import logo from './logo.svg';
 import './App.css';
+import logo from './icons/logo.svg';
 import { HashRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Search from './components/search/search';
 import Result from './components/result/result';
+
 
 function App() {
   return (
     <Router>
       <div className="app-container">
-      <header className="app-header">
-          <h1>searchify</h1>
+        <header className="app-header">
+            <img id='logo' src={logo} alt="logo" />
         </header>
         <main className="main-container">
           <Routes>
@@ -18,7 +19,7 @@ function App() {
           </Routes>
         </main>
         <footer className="app-footer">
-          
+
         </footer>
       </div>
     </Router>
