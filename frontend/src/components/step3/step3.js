@@ -9,8 +9,7 @@ const Step3 = () => {
         event.preventDefault();
         // Process the data here or pass it to parent component
         console.log({ mood, musicTypes, specialRequirements });
-        // Call onNext to proceed to the next step
-        onNext();
+        // Parce data to Gemini
     };
 
     return (

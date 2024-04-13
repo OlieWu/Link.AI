@@ -7,12 +7,15 @@ import Step3 from '../step3/step3';
 const Search = () => {
     const [step, setStep] = useState(1);
     const navigate = useNavigate();
+
     const handleNext = () => {
         setStep(step + 1);
     };
+
     const handlePrev = () => {
         setStep(step - 1);
     };
+    
     const renderStep = () => {
         switch (step) {
             case 1:

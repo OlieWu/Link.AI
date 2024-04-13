@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-
+import SongsList from '../songList/songList';
 
 const Result = () => {
     const navigate = useNavigate();
@@ -12,6 +12,7 @@ const Result = () => {
     return (
         <div>
             <h1>Result</h1>
+            <SongsList />
             <button onClick={backSearch}>Back to Search</button>
         </div>
     );
