@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import step2 from '../../icons/step2.svg';
+import upload from '../../icons/upload.svg';
+import './step2.css';
 const Step2 = () => {
     const [selectedFile, setSelectedFile] = useState(null);
 
@@ -24,10 +26,14 @@ const Step2 = () => {
             </div>
             <div className="upload-area">
                 <input type="file" onChange={handleFileChange} accept="image/*,video/*" />
-                {selectedFile && (
+                <img src={upload} alt='upload' />
+                {/* {selectedFile && (
                     <button onClick={handleUpload}>
                         Upload {selectedFile.name}
                     </button>
+                )} */}
+                {selectedFile && (
+                    <img className='upload' src={URL.createObjectURL(selectedFile)} alt='upload' />
                 )}
             </div>
         </div>

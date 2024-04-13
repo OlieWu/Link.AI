@@ -1,0 +1,46 @@
+.upload-area {
+    position: relative;
+    width: 100%-20px;
+    /* Set the width as per your design requirement */
+    height: 400px;
+    /* Set the height as per your design requirement */
+    border-radius: 30px;
+    /* Adjust if you need a different radius */
+    background-color: #DFF2E9;
+    /* Background color of the circle */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    /* Space from the bottom as per your design */
+}
+
+.upload-area input[type='file'] {
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+}
+
+.upload-area img {
+    z-index: 2;
+}
+
+.upload-area input {
+    z-index: 3;
+}
+
+.upload-area .upload {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+    object-fit: cover;
+    /* This makes the image cover the area, use 'contain' to fit inside */
+    z-index: 1;
+}
