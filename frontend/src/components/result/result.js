@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
-const Step3 = () => {
+const Result = () => {
     return (
         <div>
-            <h1>Step 3</h1>
+            <h1>Result</h1>
         </div>
     );
 }
 
-export default Step3;
+export default Result;

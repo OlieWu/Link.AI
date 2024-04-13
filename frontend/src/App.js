@@ -3,6 +3,7 @@ import './App.css';
 import { HashRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Search from './components/search/search';
 import Spotify from './components/spotify/spotify';
+import Result from './components/result/result';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Routes>
             <Route path="/" key="spotify" element={<Spotify />} />
             <Route path="/search" key="search" element={<Search />} />
+            <Route path="/result" key="result" element={<Result />} />
           </Routes>
         </main>
         <footer className="app-footer">
