@@ -8,6 +8,7 @@ const SongsList = () => {
 
     return (
         <div>
+            <button>shuffle</button>
             {songs.map(song => (
                 <Song key={song.name} name={song.name} artist={song.artist} />
             ))}

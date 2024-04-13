@@ -11,7 +11,7 @@ const Result = () => {
     };
     return (
         <div>
-            <h1>Result</h1>
+            <h1>Da Da, here it is</h1>
             <SongsList />
             <button onClick={backSearch}>Back to Search</button>
         </div>
