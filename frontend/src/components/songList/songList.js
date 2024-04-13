@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Song from '../song/song';
+import change from '../../icons/change.svg';
 
 const SongsList = () => {
     const [songs, setSongs] = useState([]);
@@ -8,7 +9,9 @@ const SongsList = () => {
 
     return (
         <div>
-            <button>shuffle</button>
+            <button className='iconbutton'>
+                <img src={change} alt='change' />
+            </button>
             {songs.map(song => (
                 <Song key={song.name} name={song.name} artist={song.artist} />
             ))}

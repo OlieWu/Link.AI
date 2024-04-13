@@ -4,19 +4,15 @@ label {
 }
 
 textarea {
-    width: 100%;
+    width: calc(100% - 20px);
     height: 100px;
     margin-top: 8px;
     border-radius: 10px;
+    padding: 10px;
     border: none;
     resize: none;
 }
 
-textarea::placeholder {
-    padding-top: 10px;
-    padding-left: 10px; /* Or any value you prefer */
-    /* Other styles for placeholder text */
-  }  
 
 textarea:focus {
     outline-color: #71D9B4;

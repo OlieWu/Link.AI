@@ -13,7 +13,7 @@ const Result = () => {
         <div>
             <h1>Da Da, here it is</h1>
             <SongsList />
-            <button onClick={backSearch}>Back to Search</button>
+            <button className="textbutton" onClick={backSearch}>Back</button>
         </div>
     );
 }
