@@ -71,15 +71,16 @@ const Search = () => {
             "specialRequirements": specialRequirements
           }
           
-          const response = await fetch("/recommendations", {
-            method: 'POST', // Specify POST method
-            headers: { 'Content-Type': 'application/json' }, // Set content type
-            body: JSON.stringify(data), // Stringify data object
+          const response = await fetch("http://localhost:5000/recommendations", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
           });
     
           if (!response.ok) {
             throw new Error(`Error fetching data: ${response.status}`);
           }
+          console.log(response);
           
           // TODO: we need to go to SongList and pass in this information here
           // setData(fetchedData);
