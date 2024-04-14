@@ -4,10 +4,10 @@ import spotipy
 from flask import Flask, request, jsonify
 import os
 import json
-from recommend import final_recommend
-from mood_evaluation import mood_eval
 from dotenv import load_dotenv
 from spotipy.oauth2 import SpotifyClientCredentials
+from recommend import final_recommend
+from mood_evaluation import mood_eval
 
 
 app = Flask(__name__)
@@ -60,12 +60,13 @@ def recommendations():
     # Query DB for the track
     image_name = ""
 
-    # TODO: get username 
+    # TODO: get username
     user_profile = sp.current_user()
     username = user_profile['display_name']
     username = collection.find_one()
 
-    target_features, seed_genres, environment_description = mood_eval(mood, music_types, special_requirements, image_name)
+    target_features, seed_genres, environment_description = mood_eval(
+        mood, music_types, special_requirements, image_name)
 
     # Fetch song recommendations based on the specified parameters
     res = get_song_recommendations(sp, music_types, target_features)
@@ -75,14 +76,15 @@ def recommendations():
         {'$set': {'API_recs': []}}
     )
 
-    update_result = collection.update_one(
+    collection.update_one(
         {'username': username},
         {'$push': {'API_recs': {'$each': res}}}
     )
 
     # TODO: in the react code, make sure to extract the track
 
-    final = final_recommend(username, environment_description, mood, music_types, special_requirements)
+    final = final_recommend(username, environment_description,
+                            mood, music_types, special_requirements)
     # print("final: " )
 
     # for song in final:
@@ -92,13 +94,10 @@ def recommendations():
     return json.loads(final)
 
 
-
-
 # text_mood = "happy"
 # text_music_types = ['pop', 'rap', 'edm', 'indie']  # Example genres
 # text_more_details = "I like upbeat songs with a catchy melody"
 # temp_image_name = "sea.jpg"
-
 
 
 # # Example target features
@@ -115,4 +114,3 @@ def recommendations():
 
 
 # seed_genres = ['sad', 'acoustic', 'piano', 'ballads']
-
