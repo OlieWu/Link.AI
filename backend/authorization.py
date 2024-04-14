@@ -109,7 +109,7 @@ def callback():
             'recently_played': recently_played_list
         })
 
-        return redirect('http://localhost:3000')
+        return jsonify({'status': 'success', 'redirectURL': 'http://localhost:3000/step2'})
     except Exception as e:
         print(f"Error during callback processing: {e}")
         return jsonify({'error': 'Internal Server Error'}), 500
@@ -123,13 +123,13 @@ def recommendations():
     music_types = data["musicTypes"]
     special_requirements = data["specialRequirements"]
 
-
     # TODO: Get image from the MongoDB. Oliver Wu can do this
     image_name = collection.find_one()
 
     username = global_data["username"]
 
-    target_features, seed_genres, environment_description = mood_eval(mood, music_types, special_requirements, image_name)
+    target_features, seed_genres, environment_description = mood_eval(
+        mood, music_types, special_requirements, image_name)
 
     # Fetch song recommendations based on the specified parameters
     res = get_song_recommendations(sp, music_types, target_features)
@@ -144,7 +144,8 @@ def recommendations():
         {'$push': {'API_recs': {'$each': res}}}
     )
 
-    final = final_recommend(username, environment_description, mood, music_types, special_requirements)
+    final = final_recommend(username, environment_description,
+                            mood, music_types, special_requirements)
     # print("final: " )
 
     # for song in final:
@@ -165,8 +166,6 @@ def get_song_recommendations(sp, seed_genres, target_features):
             (track['name'], track['artists'][0]['name'], track['external_urls']['spotify']))
 
     return recommended_tracks
-
-
 
 
 if __name__ == '__main__':
