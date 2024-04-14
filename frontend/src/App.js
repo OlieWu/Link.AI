@@ -1,15 +1,28 @@
-import logo from './logo.svg';
 import './App.css';
-import Tenants from './components/tenantsTable';
-import Input from './components/input';
+import logo from './icons/logo.svg';
+import { HashRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Search from './components/search/search';
+import Result from './components/result/result';
+
 
 function App() {
   return (
-    <div>
-      <h1>Leasing Office Tool</h1>
-      <Input />
-      <Tenants />
-    </div>
+    <Router>
+      <div className="app-container">
+        <header className="app-header">
+            <img id='logo' src={logo} alt="logo" />
+        </header>
+        <main className="main-container">
+          <Routes>
+            <Route path="/" key="search" element={<Search />} />
+            <Route path="/result" key="result" element={<Result />} />
+          </Routes>
+        </main>
+        <footer className="app-footer">
+
+        </footer>
+      </div>
+    </Router>
   );
 }
 
