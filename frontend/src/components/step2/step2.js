@@ -15,6 +15,7 @@ const Step2 = () => {
         // Reset the selected file
         setSelectedFile(null);
     };
+    
     return (
         <div>
             <div className="step">
