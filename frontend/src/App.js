@@ -1,8 +1,8 @@
 import './App.css';
 import logo from './icons/logo.svg';
 import { HashRouter as Router, Routes, Route, Link } from "react-router-dom";
-import Search from './components/search/search';
-import Result from './components/result/result';
+import Search from '../../searchify/src/components/search/search';
+import Result from '../../searchify/src/components/result/result';
 
 
 function App() {
