@@ -1,5 +1,7 @@
 from pymongo.server_api import ServerApi
 from pymongo.mongo_client import MongoClient
+from flask import Flask, request
+from werkzeug.utils import secure_filename
 import spotipy
 import os
 from recommend import final_recommend
@@ -7,7 +9,38 @@ from mood_evaluation import mood_eval
 from dotenv import load_dotenv
 from spotipy.oauth2 import SpotifyClientCredentials
 
+# Configure the app
 load_dotenv()
+app = Flask(__name__)
+api_key = os.environ["GOOGLE_API_KEY"]
+
+
+
+# Define the upload_file function
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    try: 
+        if 'file' not in request.files:
+            return 'No file part in the request.', 400
+
+        file = request.files['file']
+
+        if file.filename == '':
+            return 'No selected file.', 400
+
+        if file:
+            filename = secure_filename(file.filename)
+            file_path = os.path.join('/path/to/save/files', filename)
+            file.save(file_path)
+
+            # Call your function to process the file
+            # For example, if you're using genai.upload_file:
+            display_name = filename
+            file_response = genai.upload_file(path=file_path, display_name=display_name)
+
+            return 'File uploaded and processed successfully.', 200
+    except Exception as e:
+        return f'An error occurred: {e}', 500
 
 # Retrieve environment variables
 client_id = os.getenv('SPOTIFY_CLIENT_ID')

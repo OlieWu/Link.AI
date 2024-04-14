@@ -1,5 +1,6 @@
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
+import google.generativeai as genai
 import getpass
 import os
 import json
@@ -22,16 +23,31 @@ JSON_FORMAT = '''{
 
 }'''
 
-# Load the API info from the environment
-if "GOOGLE_API_KEY" not in os.environ:
-    os.environ["GOOGLE_API_KEY"] = getpass.getpass(
-        "Enter your Google API key: ")
+# # Load the API info from the environment
+# if "GOOGLE_API_KEY" not in os.environ:
+#     os.environ["GOOGLE_API_KEY"] = getpass.getpass("Enter your Google API key: ")
+
+api_key = os.environ["GOOGLE_API_KEY"]
 
 
+# Get local images
+'''
 def get_image_path(image_name):
     base_dir = os.path.dirname(os.path.abspath(__file__))
     image_path = os.path.join(base_dir, "pic_database/" + image_name)
     return image_path
+'''
+
+# Get image from URL
+def get_image_path():
+    # Initialize Google API Client
+    genai.configure(api_key=api_key)
+    file_path = "sample_data/gemini_logo.png"
+
+    display_name = "Gemini Logo"
+    file_response = genai.upload_file(path=file_path, display_name=display_name)
+
+
 
 
 def analyze_image(image_url):
