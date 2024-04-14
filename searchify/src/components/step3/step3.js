@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import step3 from '../../icons/step3.svg';
-import './step3.css';
+import React, { useState, useEffect } from "react";
+import step3 from "../../icons/step3.svg";
+import "./step3.css";
 
-const Step3 = ({handleMood, handleMusicTypes, handleSpecialRequirements}) => {
-  const [mood, setMood] = useState('');
-  const [musicTypes, setMusicTypes] = useState('');
-  const [specialRequirements, setSpecialRequirements] = useState('');
+const Step3 = ({ handleMood, handleMusicTypes, handleSpecialRequirements }) => {
+  const [mood, setMood] = useState("");
+  const [musicTypes, setMusicTypes] = useState("");
+  const [specialRequirements, setSpecialRequirements] = useState("");
 
   return (
     <>
       <div className="step">
         <h2>Step 3</h2>
-        <img className='stepviz' src={step3} alt='step3' />
+        <img className="stepviz" src={step3} alt="step3" />
       </div>
       <form className="step3">
         <label>
@@ -51,6 +51,6 @@ const Step3 = ({handleMood, handleMusicTypes, handleSpecialRequirements}) => {
       </form>
     </>
   );
-}
+};
 
 export default Step3;

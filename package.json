@@ -3,6 +3,10 @@
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@mui/material": "^5.15.15",
+<<<<<<< HEAD
     "i": "^0.3.7"
+=======
+    "firebase": "^10.11.0"
+>>>>>>> 44f321ecc34e1cd2e309de6fb27ed001f00559d1
   }
 }
