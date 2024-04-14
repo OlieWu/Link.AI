@@ -71,8 +71,8 @@ def callback():
     try:
         code = request.args.get('code')
         token_info = global_data["sp_oauth"].get_access_token(code)
-        sp = spotipy.Spotify(auth=token_info['access_token'])
-        global_data['sp'] = sp
+        global_data['sp'] = spotipy.Spotify(auth=token_info['access_token'])
+        sp = global_data['sp']
 
         # Ensure MongoDB client setup is optimal (consider moving this to global initialization)
         MONGO_URI = os.getenv("MONGO_URI")
@@ -132,7 +132,9 @@ def recommendations():
     target_features, seed_genres, environment_description = mood_eval(mood, music_types, special_requirements, image_name)
 
     # Fetch song recommendations based on the specified parameters
-    res = get_song_recommendations(sp, music_types, target_features)
+    print("target_features", target_features)
+    print("sp", global_data["sp"])
+    res = get_song_recommendations(global_data["sp"], music_types, target_features)
 
     collection.update_one(
         {'username': username},
