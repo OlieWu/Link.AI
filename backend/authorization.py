@@ -149,9 +149,9 @@ def recommendations():
 
     # for song in final:
     #     print(f"{song[0]} by {song[1]}")
-
+    # json.loads(final)
     # TODO: verify that final is a JSON
-    return json.loads(final)
+    return redirect('http://localhost:3000/result', recommendations=json.loads(final))
 
 
 def get_song_recommendations(sp, seed_genres, target_features):
