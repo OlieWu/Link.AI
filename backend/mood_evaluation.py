@@ -23,10 +23,12 @@ JSON_FORMAT = '''{
 }'''
 
 # Load the API info from the environment
-if "GOOGLE_API_KEY" not in os.environ:
-    os.environ["GOOGLE_API_KEY"] = getpass.getpass(
-        "Enter your Google API key: ")
+# if "GOOGLE_API_KEY" not in os.environ:
+#     os.environ["GOOGLE_API_KEY"] = getpass.getpass(
+#         "Enter your Google API key: ")
+    
 
+api_key = os.environ["GOOGLE_API_KEY"]
 
 def get_image_path(image_name):
     base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -73,11 +75,11 @@ def evalutaion(JSON_format, api_info, environment_description, text_mood, text_m
     return response
 
 
-def mood_eval(text_mood, text_music_types, text_more_details, image_name="sea.jpg"):
+def mood_eval(text_mood, text_music_types, text_more_details, image_path):
 
     try:
 
-        image_path = get_image_path(image_name)  # get the image path locally
+        # image_path = get_image_path(image_name)  # get the image path locally
 
         # get the description from Gemini API
         environment_description = analyze_image(image_path)

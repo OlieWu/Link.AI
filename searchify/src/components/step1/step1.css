@@ -1,0 +1,10 @@
+.spotify_login{
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    align-items: center;
+}
+
+.spotify_login img{
+    margin-bottom: 20px;
+}
