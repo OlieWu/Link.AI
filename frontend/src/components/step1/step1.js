@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import step1 from "../../icons/step1.svg";
-import * as React from "react";
 import LoginButton from "../../../../searchify/src/components";
 
 const Step1 = () => {
