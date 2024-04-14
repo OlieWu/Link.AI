@@ -3,7 +3,7 @@
     display: flex;
     align-items: center;
     background-color: #DFF2E9; /* Change this to match the background color in the image */
-    border-radius: 50px; /* Adjust to get the desired curvature */
+    border-radius: 30px; /* Adjust to get the desired curvature */
     padding: 10px 20px; /* Adjust for appropriate spacing */
     gap: 10px; /* Space between elements */
     width: 100%-10px;
@@ -12,6 +12,7 @@
   
   .item-container img {
     width: 50px; /* Adjust based on your design */
+    border-radius: 30px;
     height: 50px; /* Adjust based on your design */
     object-fit: cover; /* Ensures the image covers the area */
   }
