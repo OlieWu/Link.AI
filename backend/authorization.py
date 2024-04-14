@@ -4,6 +4,18 @@ from flask import Flask, jsonify, request, redirect
 from flask_cors import CORS
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
+from pymongo.server_api import ServerApi
+from pymongo.mongo_client import MongoClient
+import spotipy
+from dotenv import load_dotenv
+from spotipy.oauth2 import SpotifyClientCredentials
+
+load_dotenv()
+
+# Retrieve environment variables
+client_id = os.getenv('SPOTIFY_CLIENT_ID')
+client_secret = os.getenv('SPOTIFY_CLIENT_SECRET')
+
 
 app = Flask(__name__)
 CORS(app, origins=['http://localhost:3000'], methods=['GET',
@@ -35,21 +47,50 @@ def login():
 
 @app.route('/callback', methods=['GET'])
 def callback():
-    code = request.args.get('code')
-    token_info = global_data["sp_oauth"].get_access_token(code)
-    global_data['sp'] = spotipy.Spotify(auth=token_info['access_token'])
-    return redirect('http://localhost:3000')
+    try:
+        code = request.args.get('code')
+        token_info = global_data["sp_oauth"].get_access_token(code)
+        sp = spotipy.Spotify(auth=token_info['access_token'])
+        global_data['sp'] = sp
 
+        # Ensure MongoDB client setup is optimal (consider moving this to global initialization)
+        MONGO_URI = os.getenv("MONGO_URI")
+        client = MongoClient(MONGO_URI)
+        db = client.Searchify
+        user_data_collection = db.userData
 
-@app.route('/get-liked-songs', methods=['GET'])
-def get_liked_songs():
-    if 'sp' in global_data:
-        tracks = global_data['sp'].current_user_saved_tracks()
-        # Extracting a simple list of track names and artists for example
-        track_list = [{'name': item['track']['name'], 'artist': item['track']
-                       ['artists'][0]['name']} for item in tracks['items']]
-        return jsonify(track_list)
-    return jsonify({'error': 'Spotify client not initialized'}), 500
+        # Fetch user's Spotify username
+        user_profile = sp.current_user()
+        username = user_profile['display_name']
+
+        # Fetch and prepare user's liked songs (limit to 10)
+        liked_songs = sp.current_user_saved_tracks(limit=10)
+        liked_songs_list = [{
+            'name': track['track']['name'],
+            'artist': track['track']['artists'][0]['name'],
+            'link': track['track']['external_urls']['spotify']
+        } for track in liked_songs['items']]
+
+        # Fetch and prepare user's recently played songs (limit to 10)
+        recently_played = sp.current_user_recently_played(limit=10)
+        recently_played_list = [{
+            'name': track['track']['name'],
+            'artist': track['track']['artists'][0]['name'],
+            'link': track['track']['external_urls']['spotify']
+        } for track in recently_played['items']]
+
+        # Create a document for the user in MongoDB
+        user_data_collection.insert_one({
+            'username': username,
+            'API_recs': [],
+            'liked_songs': liked_songs_list,
+            'recently_played': recently_played_list
+        })
+
+        return redirect('http://localhost:3000')
+    except Exception as e:
+        print(f"Error during callback processing: {e}")
+        return jsonify({'error': 'Internal Server Error'}), 500
 
 
 if __name__ == '__main__':
