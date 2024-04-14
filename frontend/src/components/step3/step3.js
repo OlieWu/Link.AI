@@ -28,8 +28,9 @@ const Step3 = () => {
       if (!response.ok) {
         throw new Error(`Error fetching data: ${response.status}`);
       }
-      const fetchedData = await response.json();
-      setData(fetchedData);
+      const songs = await response.json();
+      // TODO: we need to go to SongList and pass in this information here
+      // setData(fetchedData);
     } catch (error) {
         setError(error.message);
     } finally {
