@@ -1,0 +1,55 @@
+/* Container for each item */
+.item-container {
+    display: flex;
+    align-items: center;
+    background-color: #DFF2E9;
+    /* Change this to match the background color in the image */
+    border-radius: 30px;
+    /* Adjust to get the desired curvature */
+    padding: 10px 20px;
+    /* Adjust for appropriate spacing */
+    gap: 10px;
+    /* Space between elements */
+    width: 100%-10px;
+    margin: 10px;
+    /* Space around the container */
+}
+
+.item-container img {
+    width: 50px;
+    /* Adjust based on your design */
+    border-radius: 30px;
+    height: 50px;
+    /* Adjust based on your design */
+    object-fit: cover;
+    /* Ensures the image covers the area */
+}
+
+.item-container h2 {
+    font-size: 1rem;
+    /* Adjust based on your design */
+    margin: 0;
+    /* Removes default margin */
+    color: #000;
+    /* Text color for the name, adjust as needed */
+}
+
+.item-container p {
+    font-size: 0.8rem;
+    /* Adjust based on your design */
+    margin: 0;
+    /* Removes default margin */
+    color: #000;
+    /* Text color for the artist, adjust as needed */
+}
+
+.item-container button {
+    margin-left: auto;
+    /* Pushes the button to the right */
+    background-color: transparent;
+    /* Transparent background */
+    border: none;
+    /* No border */
+    cursor: pointer;
+    /* Hand cursor on hover */
+}
