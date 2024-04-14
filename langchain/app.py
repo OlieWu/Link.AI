@@ -52,7 +52,8 @@ text_more_details = "I like upbeat songs with a catchy melody"
 temp_image_name = "sea.jpg"
 
 
-target_features, seed_genres, environment_description = mood_eval(text_mood, text_music_types, text_more_details, temp_image_name)
+target_features, seed_genres, environment_description = mood_eval(
+    text_mood, text_music_types, text_more_details, temp_image_name)
 
 # # Example target features
 
@@ -84,8 +85,9 @@ update_result = collection.update_one(
 )
 
 
-final = final_recommend("olieoil", environment_description, text_mood, text_music_types, text_more_details)
-print("final: " )
+final = final_recommend("olieoil", environment_description,
+                        text_mood, text_music_types, text_more_details)
+print("final: ")
 
 for song in res:
     print(f"{song[0]} by {song[1]}")
