@@ -1,0 +1,37 @@
+{'JSON_format': '{\n    Target_energy :\n    Target_loudness :\n    Target_dancebility :\n    Target_liveness :\n    Target_valence :\n    Seed_genres :\n    Target_instrumentalness :\n\n}', 'environment_description': '\nThis is a photo of a small tropical island with white sand beaches and palm trees. \nThe water is crystal clear and there is a small boat anchored in the foreground. \nIn the background, a larger boat is sailing on the horizon. \nThe sky is blue and there are some white clouds.\n', 'text_mood': 'happy', 'text_music_types': 'pop, rock', 'text_more_details': 'My favortiate singer is Taylor Swift.', 'text': '```\n{\n    "Target_energy": 0.7,\n    "Target_loudness": -6.0,\n    "Target_dancebility": 0.7,\n    "Target_liveness": 0.5,\n    "Target_valence": 0.8,\n    "Seed_genres": ["pop", "rock"],\n    "Target_instrumentalness": 0.2\n}\n```'}
+
+python3 mood_evaluation.py
+{'JSON_format': '{\n    Target_energy :\n    Target_loudness :\n    Target_dancebility :\n    Target_liveness :\n    Target_valence :\n    Seed_genres :\n    Target_instrumentalness :\n\n}', 'api_info': 'target_loudness: \nnumber\nFor each of the tunable track attributes (below) a target value may be provided. Tracks with the attribute values nearest to the target values will be preferred. For example, you might request target_energy=0.6 and target_danceability=0.8. All target values will be weighed equally in ranking results.\n\ntarget_energy\nnumber\nFor each of the tunable track attributes (below) a target value may be provided. Tracks with the attribute values nearest to the target values will be preferred. For example, you might request target_energy=0.6 and target_danceability=0.8. All target values will be weighed equally in ranking results.\nRange: 0 - 1\n\ntarget_danceability\nnumber\nFor each of the tunable track attributes (below) a target value may be provided. Tracks with the attribute values nearest to the target values will be preferred. For example, you might request target_energy=0.6 and target_danceability=0.8. All target values will be weighed equally in ranking results.\nRange: 0 - 1\n\ntarget_liveness\nnumber\nFor each of the tunable track attributes (below) a target value may be provided. Tracks with the attribute values nearest to the target values will be preferred. For example, you might request target_energy=0.6 and target_danceability=0.8. All target values will be weighed equally in ranking results.\nRange: 0 - 1\n\ntarget_valence\nnumber\nFor each of the tunable track attributes (below) a target value may be provided. Tracks with the attribute values nearest to the target values will be preferred. For example, you might request target_energy=0.6 and target_danceability=0.8. All target values will be weighed equally in ranking results.\nRange: 0 - 1\n\nseed_genres\nstring\nRequired\nA comma separated list of any genres in the set of available genre seeds. Up to 5 seed values may be provided in any combination of seed_artists, seed_tracks and seed_genres.\nNote: only required if seed_artists and seed_tracks are not set.\nExample: seed_genres=classical,country\n\ntarget_instrumentalness\nnumber\nFor each of the tunable track attributes (below) a target value may be provided. Tracks with the attribute values nearest to the target values will be preferred. For example, you might request target_energy=0.6 and target_danceability=0.8. All target values will be weighed equally in ranking results.\nRange: 0 - 1', 'environment_description': '\nThis is a photo of a small tropical island with white sand beaches and palm trees. \nThe water is crystal clear and there is a small boat anchored in the foreground. \nIn the background, a larger boat is sailing on the horizon. \nThe sky is blue and there are some white clouds.\n', 'text_mood': 'happy', 'text_music_types': 'pop, rock', 'text_more_details': 'My favortiate singer is Taylor Swift.', 'text': '{\n    "Target_energy" : 0.8,\n    "Target_loudness" : -6.0,\n    "Target_dancebility" : 0.7,\n    "Target_liveness" : 0.5,\n    "Target_valence" : 0.9,\n    "Seed_genres" : "pop,rock",\n    "Target_instrumentalness" : 0.0\n}'}
+
+text': '{\n    "Target_energy" : 0.8,\n    "Target_loudness" : -6.0,\n    "Target_dancebility" : 0.7,\n    "Target_liveness" : 0.5,\n    "Target_valence" : 0.9,\n    "Seed_genres" : "pop,rock",\n    "Target_instrumentalness" : 0.0\n}
+
+
+```
+{
+    "Target_energy" : 0.8,
+    "Target_loudness" : -5.0,
+    "Target_dancebility" : 0.8,
+    "Target_liveness" : 0.5,
+    "Target_valence" : 0.9,
+    "Seed_genres" : "pop,rock",
+    "Target_instrumentalness" : 0.2
+}
+```
+
+[Document(page_content='[["It\'s A Trip!", \'Joywave\', \'https://open.spotify.com/track/6IY3cC281mz9q0bViUEldz\'], [\'Bacon\', \'Nick Jonas\', \'https://open.spotify.com/track/5W4vPDfwFNQqt7frRjL41t\'], [\'Move\', \'Saint Motel\', \'https://open.spotify.com/track/4vuJuTLFomqItDrn482nzV\'], [\'Freaks Orchestra\', \'The Noisy Freaks\', \'https://open.spotify.com/track/6A6Hwl2yBkqTnJ4UvQJzZs\'], ["Heaven Knows I\'m Miserable Now - 2011 Remaster", \'The Smiths\', \'https://open.spotify.com/track/1xaTREM89RbIxkcjlpf4Uw\'], [\'Walking On A Dream\', \'Empire Of The Sun\', \'https://open.spotify.com/track/3iVAyrTlbWGBq0laeQ18z2\'], ["Just Jammin\'", \'Gramatik\', \'https://open.spotify.com/track/1QD9AQejlhhIb1txPa3WYg\'], [\'Underbelly\', \'Kid Arkade\', \'https://open.spotify.com/track/10uJ3ZdZEGuboHh9RVmr4j\'], [\'Higher\', \'Beatarce\', \'https://open.spotify.com/track/0pqcBQEac8n9Rf9fMWOZoU\'], [\'Forever\', \'Pope\', \'https://open.spotify.com/track/42prDRVUOkgzQsfSFL2mmL\']] [[\'Are you with me\', \'Lost Frequencies\', \'https://open.spotify.com/track/2glGP8kEfACgJdZ86kWxhN?si=e1b72f7f4cb94912\'], [\'We will meet again soon\', \'San Holo\', \'https://open.spotify.com/track/6VpRQDOM7nQ6viuVUSXWGn?si=bd7de80adc9d411e\']] [[\'On & On\', \'Cartoon\', \'https://open.spotify.com/track/2uZWffKoemZDI0gHcBEcDc?si=5ec5fbd921744615\'], [\'Give Me Your Love\', \'DEAMN\', \'https://open.spotify.com/track/2YLoH1JddfqPaZceR5ArIN?si=f428564938124c9b&nd=1&dlsi=8557566176784d1e\']]', metadata={'database': 'Searchify', 'collection': 'userData'})]
+
+
+{'song1': {'title': 'Can't Stop the Feeling!', 'artist': 'Justin Timberlake', 'link': 'https://www.youtube.com/watch?v=L8e32_uz7gI'}, 'song2': {'title': 'Happy', 'artist': 'Pharrell Williams', 'link': 'https://www.youtube.com/watch?v=y6Sxv-sUYtU'}, 'song3': {'title': 'Good Life', 'artist': 'OneRepublic', 'link': 'https://www.youtube.com/watch?v=U3-__zmnD4Y'}, 'song4': {'title': 'Beautiful Day', 'artist': 'U2', 'link': 'https://www.youtube.com/watch?v=gOEoKFEWiTs'}, 'song5': {'title': 'Don't Stop Me Now', 'artist': 'Queen', 'link': 'https://www.youtube.com/watch?v=I3AlTdTU3QA'}}
+
+
+final: 
+Burn - Tiësto's Club Life Remix by Ellie Goulding
+Weak by AJR
+Chimes by Hudson Mohawke
+Bigfoot - Dillon Francis Remix by W&W
+BINGBONG by NYMZ
+Baby Blue by King Krule
+Piel by Arca
+Pull Up (feat. Lil Uzi Vert) by Wiz Khalifa
+Sugar High by Approaching Nirvana
+Life - Radio Edit by Steerner
