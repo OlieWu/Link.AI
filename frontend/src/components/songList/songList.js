@@ -41,6 +41,7 @@ const SongsList = () => {
                     <img src={change} alt='change' />
                 </button>
             </div>
+            {/* TODO: in the react code, make sure to extract the track */}
             {songs.map(song => (
                 <Song key={song.name} image={song.cover} name={song.name} artist={song.artist} />
             ))}

@@ -7,10 +7,35 @@ const Step3 = () => {
   const [musicTypes, setMusicTypes] = useState('');
   const [specialRequirements, setSpecialRequirements] = useState('');
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // TODO: figure out if this is an issue
     // Process the data here or pass it to parent component
     console.log({ mood, musicTypes, specialRequirements });
+
+    // Send request to endpoint in backend
+    try {
+      data = {
+        "mood": mood,
+        "musicTypes": musicTypes,
+        "specialRequirements": specialRequirements
+      }
+      const response = await fetch("/recommendations", {
+        method: 'POST', // Specify POST method
+        headers: { 'Content-Type': 'application/json' }, // Set content type
+        body: JSON.stringify(data), // Stringify data object
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error fetching data: ${response.status}`);
+      }
+      const songs = await response.json();
+      // TODO: we need to go to SongList and pass in this information here
+      // setData(fetchedData);
+    } catch (error) {
+        setError(error.message);
+    } finally {
+        setIsLoading(false);
+    }
     // Parce data to Gemini
   };
 
