@@ -4,10 +4,10 @@ import spotipy
 from flask import Flask, request, jsonify
 import os
 import json
-from recommend import final_recommend
-from mood_evaluation import mood_eval
 from dotenv import load_dotenv
 from spotipy.oauth2 import SpotifyClientCredentials
+from recommend import final_recommend
+from mood_evaluation import mood_eval
 
 
 app = Flask(__name__)
@@ -76,7 +76,7 @@ def recommendations():
         {'$set': {'API_recs': []}}
     )
 
-    update_result = collection.update_one(
+    collection.update_one(
         {'username': username},
         {'$push': {'API_recs': {'$each': res}}}
     )

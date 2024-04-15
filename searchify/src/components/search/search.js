@@ -73,7 +73,7 @@ const Search = () => {
         specialRequirements: specialRequirements,
       };
 
-      const response = await fetch("/recommendations", {
+      const response = await fetch("http://localhost:5000/recommendations", {
         method: "POST", // Specify POST method
         headers: { "Content-Type": "application/json" }, // Set content type
         body: JSON.stringify(data), // Stringify data object
