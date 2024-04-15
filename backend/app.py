@@ -60,12 +60,13 @@ def recommendations():
     # Query DB for the track
     image_name = ""
 
-    # TODO: get username 
+    # TODO: get username
     user_profile = sp.current_user()
     username = user_profile['display_name']
     username = collection.find_one()
 
-    target_features, seed_genres, environment_description = mood_eval(mood, music_types, special_requirements, image_name)
+    target_features, seed_genres, environment_description = mood_eval(
+        mood, music_types, special_requirements, image_name)
 
     # Fetch song recommendations based on the specified parameters
     res = get_song_recommendations(sp, music_types, target_features)
@@ -82,7 +83,8 @@ def recommendations():
 
     # TODO: in the react code, make sure to extract the track
 
-    final = final_recommend(username, environment_description, mood, music_types, special_requirements)
+    final = final_recommend(username, environment_description,
+                            mood, music_types, special_requirements)
     # print("final: " )
 
     # for song in final:
@@ -92,13 +94,29 @@ def recommendations():
     return json.loads(final)
 
 
+@app.route('/get_song_cover', methods=['POST'])
+def get_song_cover():
+    data = request.get_json()
+
+    song_url = data['song_url']
+    # Extract track ID from URL
+    track_id = song_url.split('/')[-1]
+
+    # Fetch track details from Spotify
+    try:
+        track_details = sp.track(track_id)
+        # Get album cover image URL
+        # Typically, images[0] is the largest image
+        album_cover_url = track_details['album']['images'][0]['url']
+        return jsonify({'album_cover_url': album_cover_url})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 # text_mood = "happy"
 # text_music_types = ['pop', 'rap', 'edm', 'indie']  # Example genres
 # text_more_details = "I like upbeat songs with a catchy melody"
 # temp_image_name = "sea.jpg"
-
 
 
 # # Example target features
@@ -115,4 +133,3 @@ def recommendations():
 
 
 # seed_genres = ['sad', 'acoustic', 'piano', 'ballads']
-
