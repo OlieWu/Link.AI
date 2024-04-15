@@ -1,5 +1,6 @@
 from dotenv import load_dotenv
 import os
+from langchain_google_genai import ChatGoogleGenerativeAI
 from flask import Flask, jsonify, request, redirect
 from flask_cors import CORS
 import spotipy
@@ -39,7 +40,8 @@ global_data = {
         redirect_uri=SPOTIFY_REDIRECT_URI,
         scope=SPOTIFY_SCOPES
     ),
-    "username": ""
+    "username": "",
+    "img": ""
 }
 
 # Setup Spotify client credentials (app.py code)
@@ -71,8 +73,8 @@ def callback():
     try:
         code = request.args.get('code')
         token_info = global_data["sp_oauth"].get_access_token(code)
-        sp = spotipy.Spotify(auth=token_info['access_token'])
-        global_data['sp'] = sp
+        global_data['sp'] = spotipy.Spotify(auth=token_info['access_token'])
+        sp = global_data['sp']
 
         # Ensure MongoDB client setup is optimal (consider moving this to global initialization)
         MONGO_URI = os.getenv("MONGO_URI")
@@ -109,7 +111,7 @@ def callback():
             'recently_played': recently_played_list
         })
 
-        return redirect('http://localhost:3000')
+        return jsonify({'status': 'success', 'redirectURL': 'http://localhost:3000/step2'})
     except Exception as e:
         print(f"Error during callback processing: {e}")
         return jsonify({'error': 'Internal Server Error'}), 500
@@ -123,16 +125,19 @@ def recommendations():
     music_types = data["musicTypes"]
     special_requirements = data["specialRequirements"]
 
-
     # TODO: Get image from the MongoDB. Oliver Wu can do this
-    image_name = collection.find_one()
+    image_name = global_data['img']
 
     username = global_data["username"]
+    print("img", global_data['img'])
 
-    target_features, seed_genres, environment_description = mood_eval(mood, music_types, special_requirements, image_name)
+    target_features, seed_genres, environment_description = mood_eval(
+        mood, music_types, special_requirements, image_name)
 
     # Fetch song recommendations based on the specified parameters
-    res = get_song_recommendations(sp, music_types, target_features)
+    print("target_features", target_features)
+    print("sp", global_data["sp"])
+    res = get_song_recommendations(global_data["sp"], music_types, target_features)
 
     collection.update_one(
         {'username': username},
@@ -144,14 +149,15 @@ def recommendations():
         {'$push': {'API_recs': {'$each': res}}}
     )
 
-    final = final_recommend(username, environment_description, mood, music_types, special_requirements)
+    final = final_recommend(username, environment_description,
+                            mood, music_types, special_requirements)
     # print("final: " )
 
     # for song in final:
     #     print(f"{song[0]} by {song[1]}")
-
+    # json.loads(final)
     # TODO: verify that final is a JSON
-    return json.loads(final)
+    return redirect('http://localhost:3000/result', recommendations=json.loads(final))
 
 
 def get_song_recommendations(sp, seed_genres, target_features):
@@ -167,6 +173,45 @@ def get_song_recommendations(sp, seed_genres, target_features):
     return recommended_tracks
 
 
+# Define the upload_file function
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    try: 
+        urls = request.get_json()
+
+        if not urls:
+            return 'No URLs in the request.', 400
+
+        # Process the URLs
+        for url in urls:
+            # Call your function to process the URL
+            # For example, if you're using genai.upload_file:
+            display_name = url.split('/')[-1]  # Get the file name from the URL
+            file_response = genai.upload_file(url=url, display_name=display_name)
+            global_data['img'] = url
+            print("img is", global_data['img'])
+
+        return 'URLs processed successfully.', 200
+    except Exception as e:
+        return f'An error occurred: {e}', 500
+
+@app.route('/get_song_cover', methods=['POST'])
+def get_song_cover():
+    data = request.get_json()
+
+    song_url = data['song_url']
+    # Extract track ID from URL
+    track_id = song_url.split('/')[-1]
+
+    # Fetch track details from Spotify
+    try:
+        track_details = sp.track(track_id)
+        # Get album cover image URL
+        # Typically, images[0] is the largest image
+        album_cover_url = track_details['album']['images'][0]['url']
+        return jsonify({'album_cover_url': album_cover_url})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
 
 
 if __name__ == '__main__':

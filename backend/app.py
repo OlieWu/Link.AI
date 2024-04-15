@@ -94,6 +94,25 @@ def recommendations():
     return json.loads(final)
 
 
+@app.route('/get_song_cover', methods=['POST'])
+def get_song_cover():
+    data = request.get_json()
+
+    song_url = data['song_url']
+    # Extract track ID from URL
+    track_id = song_url.split('/')[-1]
+
+    # Fetch track details from Spotify
+    try:
+        track_details = sp.track(track_id)
+        # Get album cover image URL
+        # Typically, images[0] is the largest image
+        album_cover_url = track_details['album']['images'][0]['url']
+        return jsonify({'album_cover_url': album_cover_url})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 # text_mood = "happy"
 # text_music_types = ['pop', 'rap', 'edm', 'indie']  # Example genres
 # text_more_details = "I like upbeat songs with a catchy melody"

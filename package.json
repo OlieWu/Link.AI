@@ -3,6 +3,6 @@
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
     "@mui/material": "^5.15.15",
-    "i": "^0.3.7"
+    "firebase": "^10.11.0"
   }
 }
